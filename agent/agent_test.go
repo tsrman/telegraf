@@ -234,7 +234,7 @@ func collect(ctx context.Context, a *Agent, wait time.Duration) ([]telegraf.Metr
 	var received []telegraf.Metric
 	var mu sync.Mutex
 
-	src := make(chan telegraf.Metric, 100)
+	src := make(chan telegraf.Metric, 100000)
 
 	var wg sync.WaitGroup
 	wg.Add(1)
