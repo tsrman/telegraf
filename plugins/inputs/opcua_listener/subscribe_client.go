@@ -100,7 +100,7 @@ func (sc *SubscribeClientConfig) CreateSubscribeClient(log telegraf.Logger) (*Su
 		// The channel size should be increased if reports come in on Telegraf blocking when many changes come in at
 		// the same time. It could be made dependent on the number of nodes subscribed to and the subscription interval.
 		dataNotifications: make(chan *opcua.PublishNotificationData, 100),
-		metrics:           make(chan telegraf.Metric, 100),
+		metrics:           make(chan telegraf.Metric, 100000),
 		ctx:               processingCtx,
 		cancel:            processingCancel,
 	}
