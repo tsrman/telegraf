@@ -620,7 +620,7 @@ func (a *Agent) startProcessors(
 	for i := len(runningProcessors) - 1; i >= 0; i-- {
 		processor := runningProcessors[i]
 
-		src = make(chan telegraf.Metric, 100)
+		src = make(chan telegraf.Metric, 100000)
 		acc := NewAccumulator(processor, dst)
 
 		err := processor.Start(acc)
@@ -676,7 +676,7 @@ func (a *Agent) startAggregators(
 	outputC chan<- telegraf.Metric,
 	aggregators []*models.RunningAggregator,
 ) (chan<- telegraf.Metric, *aggregatorUnit) {
-	src := make(chan telegraf.Metric, 100)
+	src := make(chan telegraf.Metric, 100000)
 	unit := &aggregatorUnit{
 		src:         src,
 		aggC:        aggC,
@@ -790,7 +790,7 @@ func (a *Agent) startOutputs(
 	ctx context.Context,
 	outputs []*models.RunningOutput,
 ) (chan<- telegraf.Metric, *outputUnit, error) {
-	src := make(chan telegraf.Metric, 100)
+	src := make(chan telegraf.Metric, 100000)
 	unit := &outputUnit{src: src}
 	for _, output := range outputs {
 		err := a.connectOutput(ctx, output)
@@ -965,7 +965,7 @@ func (a *Agent) flushBatch(
 // Test runs the inputs, processors and aggregators for a single gather and
 // writes the metrics to stdout.
 func (a *Agent) Test(ctx context.Context, wait time.Duration) error {
-	src := make(chan telegraf.Metric, 100)
+	src := make(chan telegraf.Metric, 100000)
 
 	var wg sync.WaitGroup
 	wg.Add(1)
